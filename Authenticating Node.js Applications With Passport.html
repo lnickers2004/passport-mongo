@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en"><head>
+<title>Authenticating Node.js Applications With Passport</title>
+<meta charset="utf-8">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta content="diaspora*" name="description">
+<meta content="Diaspora is the Privacy Aware Open Source Social Network. Diasp.org is an open Diaspora pod and is user supported." name="author">
+<meta content="Diaspora* pod Diasporg" property="og:site_name">
+<link href="https://c790230.ssl.cf2.rackcdn.com/favicon.png" rel="shortcut icon">
+<link href="https://c790230.ssl.cf2.rackcdn.com/apple-touch-icon.png" rel="apple-touch-icon">
+
+
+<link href="_Users_larrynickerson_nodejs-sites_sandbox_express-sandbox_passport-mongo_Authenticating%20Node.js%20Applications%20With%20Passport_files/bootstrap-complete-f10e701c4b7663863d5610f8d8ebf5d7.css" media="screen" rel="stylesheet" type="text/css">
+<link href="_Users_larrynickerson_nodejs-sites_sandbox_express-sandbox_passport-mongo_Authenticating%20Node.js%20Applications%20With%20Passport_files/default-09f5aacd6a87c289181a2971ed212377.css" media="all" rel="stylesheet" type="text/css">
+<link href="_Users_larrynickerson_nodejs-sites_sandbox_express-sandbox_passport-mongo_Authenticating%20Node.js%20Applications%20With%20Passport_files/new-templates-29d21c2250bf2ca9a41bdcd6787da2e3.css" media="all" rel="stylesheet" type="text/css">
+<script>        if(Array.isArray === undefined) {
+          Array.isArray = function (arg) {
+            return Object.prototype.toString.call(arg) == '[object Array]';
+          };
+        }
+        if ((window.history) && (window.history.pushState === undefined)) {
+          window.history.pushState = function() { };
+        }
+</script>
+<!--[if IE]>
+<script src="/assets/ie-7bfe2e2a768f6c766df6660af149d223.js" type="text/javascript"></script>
+<![endif]-->
+<script src="_Users_larrynickerson_nodejs-sites_sandbox_express-sandbox_passport-mongo_Authenticating%20Node.js%20Applications%20With%20Passport_files/jquery-9db6eedebd6f37403b0429cb6e6debe9.js" type="text/javascript"></script>
+<script src="_Users_larrynickerson_nodejs-sites_sandbox_express-sandbox_passport-mongo_Authenticating%20Node.js%20Applications%20With%20Passport_files/jquery_ujs-9c152ebc8a5bc716c4921c731b05673c.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+jQuery.ajaxSetup({'cache': false});
+//]]>
+</script>
+<script src="_Users_larrynickerson_nodejs-sites_sandbox_express-sandbox_passport-mongo_Authenticating%20Node.js%20Applications%20With%20Passport_files/main-4d20182bf398a1e999ef1fa69b9600a7.js" type="text/javascript"></script>
+<script src="_Users_larrynickerson_nodejs-sites_sandbox_express-sandbox_passport-mongo_Authenticating%20Node.js%20Applications%20With%20Passport_files/templates-d898e9cf437fc0b8f06a71114079dbe3.js" type="text/javascript"></script>
+<script>        Diaspora.I18n.load({"confirm_dialog":"Are you sure?","delete":"Delete","ignore":"Ignore","report":{"prompt":"Report something that violates the pods terms (not things that offend you, use ignore for that)","prompt_default":"offensive content","name":"Report","status":{"created":"The report was successfully created","exists":"The report already exists"}},"ignore_user":"Ignore this user?","ignore_failed":"Unable to ignore this user","and":"and","comma":",","edit":"Edit","timeago":{"prefixAgo":"","prefixFromNow":"","suffixAgo":"ago","suffixFromNow":"from now","seconds":"less than a minute","minute":"about a minute","minutes":"%d minutes","hour":"about an hour","hours":"about %d hours","day":"a day","days":"%d days","month":"about a month","months":"%d months","year":"about a year","years":"%d years","wordSeparator":" "},"my_activity":"My Activity","my_stream":"Stream","my_aspects":"My Aspects","videos":{"watch":"Watch this video on \u003C%= provider %\u003E","unknown":"Unknown video type"},"search_for":"Search for \u003C%= name %\u003E","publisher":{"at_least_one_aspect":"You must publish to at least one aspect","limited":"Limited - your post will only be seen by people you are sharing with","public":"Public - your post will be visible to everyone and found by search engines","near_from":"Posted from: \u003C%= location %\u003E","option":"Answer","add_option":"Add an answer","question":"Question"},"bookmarklet":{"post_something":"Post to diaspora*","post_submit":"Submitting post...","post_success":"Posted! Closing popup window..."},"infinite_scroll":{"no_more":"No more posts.","no_more_contacts":"No more contacts."},"aspect_dropdown":{"add_to_aspect":"Add contact","select_aspects":"Select aspects","all_aspects":"All aspects","stopped_sharing_with":"You have stopped sharing with \u003C%= name %\u003E.","started_sharing_with":"You have started sharing with \u003C%= name %\u003E!","error":"Couldn't start sharing with \u003C%= name %\u003E.  Are you ignoring them?","error_remove":"Couldn't remove \u003C%= name %\u003E from the aspect :(","toggle":{"zero":"Select aspects","one":"In \u003C%= count %\u003E aspect","other":"In \u003C%= count %\u003E aspects"}},"show_more":"show more","failed_to_like":"Failed to like!","failed_to_post_message":"Failed to post message!","failed_to_remove":"Failed to remove the entry!","comments":{"show":"show all comments","hide":"hide comments","no_comments":"There are no comments yet."},"reshares":{"duplicate":"That good, huh?  You've already reshared that post!","successful":"The post was successfully reshared!","post":"Reshare \u003C%= name %\u003E's post?"},"aspect_navigation":{"select_all":"Select all","deselect_all":"Deselect all","no_aspects":"No aspects selected","add_an_aspect":"+ Add an aspect"},"getting_started":{"hey":"Hey, \u003C%= name %\u003E!","no_tags":"Hey, you haven't followed any tags!  Continue anyway?","alright_ill_wait":"Alright, I'll wait.","preparing_your_stream":"Preparing your personalized stream..."},"photo_uploader":{"looking_good":"OMG, you look awesome!","completed":"\u003C%= file %\u003E completed","error":"A problem occurred while uploading file \u003C%= file %\u003E","invalid_ext":"{file} has invalid extension. Only {extensions} are allowed.","size_error":"{file} is too large, maximum file size is {sizeLimit}.","empty":"{file} is empty, please select files again without it."},"tags":{"wasnt_that_interesting":"OK, I suppose #\u003C%= tagName %\u003E wasn't all that interesting..."},"people":{"not_found":"and no one was found..."},"conversation":{"participants":"Participants"},"notifications":{"mark_read":"Mark read","mark_unread":"Mark unread"},"stream":{"hide":"Hide","public":"Public","limited":"Limited","like":"Like","unlike":"Unlike","reshare":"Reshare","comment":"Comment","original_post_deleted":"Original post deleted by author.","show_nsfw_post":"Show post","show_nsfw_posts":"Show all","hide_nsfw_posts":"Hide #nsfw posts","follow":"Follow","unfollow":"Unfollow","via":"via \u003C%= provider %\u003E","likes":{"zero":"\u003C%= count %\u003E Likes","one":"\u003C%= count %\u003E Like","other":"\u003C%= count %\u003E Likes"},"reshares":{"zero":"\u003C%= count %\u003E Reshares","one":"\u003C%= count %\u003E Reshare","other":"\u003C%= count %\u003E Reshares"},"more_comments":{"zero":"Show \u003C%= count %\u003E more comments","one":"Show \u003C%= count %\u003E more comment","other":"Show \u003C%= count %\u003E more comments"},"followed_tag":{"title":"#Followed Tags","contacts_title":"People who dig these tags","add_a_tag":"Add a tag","follow":"Follow"},"tags":{"follow":"Follow #\u003C%= tag %\u003E","following":"Following #\u003C%= tag %\u003E","stop_following":"Stop Following #\u003C%= tag %\u003E"}},"header":{"home":"Home","profile":"Profile","contacts":"Contacts","settings":"Settings","help":"Help","admin":"Admin","log_out":"Log out","notifications":"Notifications","conversations":"Conversations","search":"Search","recent_notifications":"Recent Notifications","mark_all_as_read":"Mark all as read","view_all":"View all","close":"close"},"viewer":{"stop_following_post":"Stop following post","follow_post":"Follow post","like":"Like","unlike":"Unlike","reshare":"Reshare","reshared":"Reshared","comment":"Comment","home":"HOME"},"poll":{"vote":"Vote","result":"Result","count":{"one":"1 vote so far","other":"\u003C%=count%\u003E votes so far"},"show_result":"Show result","close_result":"Hide result"},"pluralization_rule":"function (n) { return n == 1 ? \"one\" : \"other\" }","pod_name":"Diaspora* pod Diasporg"},
+                           "en",
+                           {"confirm_dialog":"Are you sure?","delete":"Delete","ignore":"Ignore","report":{"prompt":"Report something that violates the pods terms (not things that offend you, use ignore for that)","prompt_default":"offensive content","name":"Report","status":{"created":"The report was successfully created","exists":"The report already exists"}},"ignore_user":"Ignore this user?","ignore_failed":"Unable to ignore this user","and":"and","comma":",","edit":"Edit","timeago":{"prefixAgo":"","prefixFromNow":"","suffixAgo":"ago","suffixFromNow":"from now","seconds":"less than a minute","minute":"about a minute","minutes":"%d minutes","hour":"about an hour","hours":"about %d hours","day":"a day","days":"%d days","month":"about a month","months":"%d months","year":"about a year","years":"%d years","wordSeparator":" "},"my_activity":"My Activity","my_stream":"Stream","my_aspects":"My Aspects","videos":{"watch":"Watch this video on \u003C%= provider %\u003E","unknown":"Unknown video type"},"search_for":"Search for \u003C%= name %\u003E","publisher":{"at_least_one_aspect":"You must publish to at least one aspect","limited":"Limited - your post will only be seen by people you are sharing with","public":"Public - your post will be visible to everyone and found by search engines","near_from":"Posted from: \u003C%= location %\u003E","option":"Answer","add_option":"Add an answer","question":"Question"},"bookmarklet":{"post_something":"Post to diaspora*","post_submit":"Submitting post...","post_success":"Posted! Closing popup window..."},"infinite_scroll":{"no_more":"No more posts.","no_more_contacts":"No more contacts."},"aspect_dropdown":{"add_to_aspect":"Add contact","select_aspects":"Select aspects","all_aspects":"All aspects","stopped_sharing_with":"You have stopped sharing with \u003C%= name %\u003E.","started_sharing_with":"You have started sharing with \u003C%= name %\u003E!","error":"Couldn't start sharing with \u003C%= name %\u003E.  Are you ignoring them?","error_remove":"Couldn't remove \u003C%= name %\u003E from the aspect :(","toggle":{"zero":"Select aspects","one":"In \u003C%= count %\u003E aspect","other":"In \u003C%= count %\u003E aspects"}},"show_more":"show more","failed_to_like":"Failed to like!","failed_to_post_message":"Failed to post message!","failed_to_remove":"Failed to remove the entry!","comments":{"show":"show all comments","hide":"hide comments","no_comments":"There are no comments yet."},"reshares":{"duplicate":"That good, huh?  You've already reshared that post!","successful":"The post was successfully reshared!","post":"Reshare \u003C%= name %\u003E's post?"},"aspect_navigation":{"select_all":"Select all","deselect_all":"Deselect all","no_aspects":"No aspects selected","add_an_aspect":"+ Add an aspect"},"getting_started":{"hey":"Hey, \u003C%= name %\u003E!","no_tags":"Hey, you haven't followed any tags!  Continue anyway?","alright_ill_wait":"Alright, I'll wait.","preparing_your_stream":"Preparing your personalized stream..."},"photo_uploader":{"looking_good":"OMG, you look awesome!","completed":"\u003C%= file %\u003E completed","error":"A problem occurred while uploading file \u003C%= file %\u003E","invalid_ext":"{file} has invalid extension. Only {extensions} are allowed.","size_error":"{file} is too large, maximum file size is {sizeLimit}.","empty":"{file} is empty, please select files again without it."},"tags":{"wasnt_that_interesting":"OK, I suppose #\u003C%= tagName %\u003E wasn't all that interesting..."},"people":{"not_found":"and no one was found..."},"conversation":{"participants":"Participants"},"notifications":{"mark_read":"Mark read","mark_unread":"Mark unread"},"stream":{"hide":"Hide","public":"Public","limited":"Limited","like":"Like","unlike":"Unlike","reshare":"Reshare","comment":"Comment","original_post_deleted":"Original post deleted by author.","show_nsfw_post":"Show post","show_nsfw_posts":"Show all","hide_nsfw_posts":"Hide #nsfw posts","follow":"Follow","unfollow":"Unfollow","via":"via \u003C%= provider %\u003E","likes":{"zero":"\u003C%= count %\u003E Likes","one":"\u003C%= count %\u003E Like","other":"\u003C%= count %\u003E Likes"},"reshares":{"zero":"\u003C%= count %\u003E Reshares","one":"\u003C%= count %\u003E Reshare","other":"\u003C%= count %\u003E Reshares"},"more_comments":{"zero":"Show \u003C%= count %\u003E more comments","one":"Show \u003C%= count %\u003E more comment","other":"Show \u003C%= count %\u003E more comments"},"followed_tag":{"title":"#Followed Tags","contacts_title":"People who dig these tags","add_a_tag":"Add a tag","follow":"Follow"},"tags":{"follow":"Follow #\u003C%= tag %\u003E","following":"Following #\u003C%= tag %\u003E","stop_following":"Stop Following #\u003C%= tag %\u003E"}},"header":{"home":"Home","profile":"Profile","contacts":"Contacts","settings":"Settings","help":"Help","admin":"Admin","log_out":"Log out","notifications":"Notifications","conversations":"Conversations","search":"Search","recent_notifications":"Recent Notifications","mark_all_as_read":"Mark all as read","view_all":"View all","close":"close"},"viewer":{"stop_following_post":"Stop following post","follow_post":"Follow post","like":"Like","unlike":"Unlike","reshare":"Reshare","reshared":"Reshared","comment":"Comment","home":"HOME"},"poll":{"vote":"Vote","result":"Result","count":{"one":"1 vote so far","other":"\u003C%=count%\u003E votes so far"},"show_result":"Show result","close_result":"Hide result"},"pluralization_rule":"function (n) { return n == 1 ? \"one\" : \"other\" }","pod_name":"Diaspora* pod Diasporg"});
+        Diaspora.Page = "PostsShow";
+</script>
+<script>        if(window.app) app.baseImageUrl("/assets/")
+</script>
+
+
+
+<meta content="authenticity_token" name="csrf-param">
+<meta content="VR4Iaay1fh5vOp82PVycubTA7lVaMfmkeFTtheK7+Z8=" name="csrf-token">
+<link href="https://diasp.org/oembed?url=https%3A%2F%2Fdiasp.org%2Fposts%2F3361834" rel="alternate" type="application/json+oembed">
+<meta content="[Authenticating Node.js Applications With Passport](http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--..." property="og:title"> <meta content="diasporg:frame" property="og:type"> <meta content="https://diasp.org/posts/3361834" property="og:url"> <meta content="https://diasp.org/assets/asterisk-b0507b1e1d7c93f4333b05f31689d9c5.png" property="og:image"> <meta content="[Authenticating Node.js Applications With Passport](http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619)" property="og:description">
+<script type="text/javascript">
+//<![CDATA[
+window.gon={};gon.preloads={};gon.bootstrap=true;gon.post={"id":3361834,"guid":"cc31ce5004400132afcd6b97471a1ca5","text":"### [Authenticating Node.js Applications With Passport](http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619) \n*2014-08-11T18:13:24.668Z, by Agraj Mangal*\n\nImplementing robust authentication strategies for any application can be a\ndaunting task and Node.js applications are no exception to this.\n\nIn this tutorial, we will develop a Node.js application from scratch and use a\nrelatively new but very popular authentication middleware -\n[Passport](http://passportjs.org/) to take care of our authentication\nconcerns.  \n\n\u003E Passport's documentation describes it as a \"simple, unobtrusive\nauthentication middleware for Node\" and rightly so.\n\nBy providing itself as a middleware, Passport does an excellent job at\nseparating the other concerns of a web application from its authentication\nneeds. It allows Passport to be easily configured into any\n[Express](http://expressjs.com/)-based web application, just like we configure\nother Express middleware such as\n[logging](https://github.com/expressjs/morgan), [body-\nparsing](https://github.com/expressjs/body-parser), [cookie-\nparsing](https://github.com/expressjs/cookie-parser), session-handling, etc.\n\nThis tutorial assumes a basic understanding of [Node.js](http://nodejs.org/)\nand [Express](http://expressjs.com/) framework and try to keep focus on\nauthentication, although we do create a sample Express app from scratch and\nprogress via adding routes to it and authenticating some of those routes.\n\n## Authentication Strategies\n\nPassport provides us with 140+ authentication mechanisms to choose from. You\ncan authenticate against a local/remote database instance or use the single\nsign-on using OAuth providers for [Facebook](https://github.com/jaredhanson\n/passport-facebook), [Twitter](https://github.com/jaredhanson/passport-\ntwitter), [Google](https://github.com/jaredhanson/passport-google), etc. to\nauthenticate with your social media accounts, or you can choose from an\nextensive list of [providers](http://passportjs.org/guide/providers/) which\nsupport authentication with Passport and provide a node module for that.\n\nBut worry not: You do not need to include any strategy/mechanism that your\napplication does not need. All these strategies are independent of each other\nand packaged as separate node modules which are not included by default when\nyou install Passport's middleware:  `npm install passport`\n\nIn this tutorial, we will use the Local Authentication Strategy of Passport\nand authenticate the users against a locally configured Mongo DB instance,\nstoring the user details in the database. For using the Local Authentication\nStrategy, we need to install the [passport-\nlocal](https://github.com/jaredhanson/passport-local) module: `npm install\npassport-local`\n\nBut wait: Before you fire up your terminal and start executing these commands,\nlet's start by building a Express app from scratch and add some routes to it\n(for login, registration and home) and then try to add our authentication\nmiddleware to it. Note that we will be using Express 4 for the purposes of\nthis tutorial, but with some minor\n[differences](https://github.com/strongloop/express/wiki/Migrating-\nfrom-3.x-to-4.x) Passport works equally well with Express 3, as well.\n\n## Setting Up the Application\n\nIf you haven't already, then go ahead and install\n[Express](http://expressjs.com/) \u0026 [express-\ngenerator](https://github.com/expressjs/generator) to generate a boilerplate\napplication by simply executing `express passport-mongo` on the terminal. The\ngenerated application structure should look like this:\n\nLet's remove some of the default functionality that we won't be making use of\n- go ahead and delete the `users.js` route and remove its references from the\n`app.js` file.\n\n## Adding Project Dependencies\n\nOpen up `package.json` and add the dependencies for `passport` and `passport-\nlocal` module.\n\n    \n    \n    \"passport\": \"~0.2.0\",\n    \"passport-local\": \"~1.0.0\"\n\nSince we will be saving the user details in MongoDB, we will use Mongoose as\nour object data modeling tool. Another way to install and save the dependency\nto `package.json` is by entering:\n\n    \n    \n    npm install mongoose --save \n\n`package.json` should look like this:\n\nNow, install all the dependencies and run the boilerplate application by\nexecuting `npm install \u0026\u0026 npm start`. It will now download and install all of\nthe dependencies and will start the node server. You can check the basic\nExpress app at \u003Chttp://localhost:3000/\u003E but there is nothing much to see.\n\nVery soon, we are going to change that by creating a full-fledged express app\nthat asks for shows a registration page for a new user, the login of a\nregistered user, and authenticates the registered user by using Passport.\n\n## Creating Mongoose Model\n\nSince we will be saving the user details in Mongo, let's create a User Model\nin [Mongoose](http://mongoosejs.com/index.html) and save that in\n`models/user.js` in our app.\n\n    \n    \n    var mongoose = require('mongoose');\n    \n    module.exports = mongoose.model('User',{\n            username: String,\n    \tpassword: String,\n    \temail: String,\n    \tgender: String,\n    \taddress: String\n    });\n\nBasically, we are creating a Mongoose\n[model](http://mongoosejs.com/docs/models.html) using which we can perform\nCRUD operations on the underlying database.\n\n## Configuring Mongo\n\nIf you do not have Mongo installed locally then we recommend that you use\ncloud database services such as [Modulus](https://modulus.io/) or\n[MongoLab](https://mongolab.com/welcome/). Creating a working MongoDB instance\nusing these is not only free but is just a matter of few clicks.\n\nAfter you create a database on one of these services, it will give you a\ndatabase URI\nlike`mongodb://\u003Cdbuser\u003E:\u003Cdbpassword\u003E@novus.modulusmongo.net:27017/\u003CdbName\u003E`\nwhich can be used to perform CRUD operations on the database. It's a good idea\nto keep the database configuration in a separate file which can be pull up as\nand when needed. As such, we create a node module `db.js` which looks like:\n\n    \n    \n    module.exports = {\n      'url' : 'mongodb://\u003Cdbuser\u003E:\u003Cdbpassword\u003E@novus.modulusmongo.net:27017/\u003CdbName\u003E'\n    }\n\nIf like me, you are using a local mMngo instance then it's time to start the\n`mongod` daemon and the `db.js` should look like\n\n    \n    \n    module.exports = {\n      'url' : 'mongodb://localhost/passport'\n    }\n\n Now we use this configuration in `app.js` and connect to it using Mongoose\nAPIs:  \n    \n    \n    var dbConfig = require('./db.js');\n    var mongoose = require('mongoose');\n    mongoose.connect(dbConfig.url);\n\n## Configuring Passport\n\nPassport just provides the mechanism to handle authentication leaving the onus\nof implementing session-handling ourselves and for that we will be using\n[express-session](https://github.com/expressjs/session). Open up `app.js` and\npaste the code below before configuring the routes:\n\n    \n    \n    // Configuring Passport\n    var passport = require('passport');\n    var expressSession = require('express-session');\n    app.use(expressSession({secret: 'mySecretKey'}));\n    app.use(passport.initialize());\n    app.use(passport.session());\n\n  \n\nThis is needed as we want our user sessions to be persistent in nature. Before\nrunning the app, we need to install [express-\nsession](https://github.com/expressjs/session) and add it to our dependency\nlist in `package.json`. To do that type `npm install --save express-session`\n\n## Serializing and Deserializing User Instances\n\nPassport also needs to serialize and deserialize user instance from a session\nstore in order to support login sessions, so that every subsequent request\nwill not contain the user credentials. It provides two methods `serializeUser`\nand `deserializeUser` for this purpose:\n\n    \n    \n    passport.serializeUser(function(user, done) {\n      done(null, user._id);\n    });\n    \n    passport.deserializeUser(function(id, done) {\n      User.findById(id, function(err, user) {\n        done(err, user);\n      });\n    });\n\n## Using Passport Strategies\n\n We will now define Passport's strategies for handling **login** and\n**signup**. Each of them would be an instance of  the **Local Authentication\nStrategy** of Passport and would be created using the `passport.use()`\nfunction. We use [connect-flash](https://www.npmjs.org/package/connect-flash)\nto help us with error handling by providing flash messages which can be\ndisplayed to user on error.\n\n### Login Strategy\n\nThe login strategy looks like this:\n\n    \n    \n    // passport/login.js\n    passport.use('login', new LocalStrategy({\n        passReqToCallback : true\n      },\n      function(req, username, password, done) { \n        // check in mongo if a user with username exists or not\n        User.findOne({ 'username' :  username }, \n          function(err, user) {\n            // In case of any error, return using the done method\n            if (err)\n              return done(err);\n            // Username does not exist, log error \u0026 redirect back\n            if (!user){\n              console.log('User Not Found with username '+username);\n              return done(null, false, \n                    req.flash('message', 'User Not found.'));                 \n            }\n            // User exists but wrong password, log the error \n            if (!isValidPassword(user, password)){\n              console.log('Invalid Password');\n              return done(null, false, \n                  req.flash('message', 'Invalid Password'));\n            }\n            // User and password both match, return user from \n            // done method which will be treated like success\n            return done(null, user);\n          }\n        );\n    }));\n\nThe first parameter to `passport.use()` is the **name** of the strategy which\nwill be used to identify this strategy when applied later. The second\nparameter is the **type** of strategy that you want to create, here we use the\n[username-password](http://passportjs.org/guide/username-password/) or the\nLocalStrategy. It is to be noted that by default the LocalStrategy expects to\nfind the user credentials in `username` \u0026 `password` parameters, but it allows\nus to use any other named parameters as well. The `passReqToCallback` config\nvariable allows us to access the `request` object in the callback, thereby\nenabling us to use any parameter associated with the request.  \n\nNext, we use the [Mongoose\nAPI](http://mongoosejs.com/docs/api.html#model_Model.findOne) to find the User\nin our underlying collection of Users to check if the user is a valid user or\nnot. The last parameter in our callback : `done` denotes a useful method using\nwhich we could signal success or failure to Passport module. To specify\nfailure either the first parameter should contain the error, or the second\nparameter should evaluate to `false`. To signify success the first parameter\nshould be `null` and the second parameter should evaluate to a `truthy` value,\nin which case it will be made available on the `request` object\n\nSince passwords are inherently weak in nature, we should always\n[encrypt](http://codahale.com/how-to-safely-store-a-password/) them before\nsaving them to the database. For this, we use [bcrypt-\nnodejs](https://www.npmjs.org/package/bcrypt-nodejs) to help us out with\nencryption and decryption of passwords.\n\n    \n    \n    var isValidPassword = function(user, password){\n      return bCrypt.compareSync(password, user.password);\n    }\n\nIf you are feeling uneasy with the code snippets and prefer to see the\ncomplete code in action, feel free to browse [the code\nhere](https://github.com/tutsplus/passport-mongo).\n\n### Registration Strategy\n\nNow, we define the next strategy which will handle registration of a new user\nand creates his or her entry in our underlying Mongo DB:\n\n    \n    \n    passport.use('signup', new LocalStrategy({\n        passReqToCallback : true \n      },\n      function(req, username, password, done) {\n        findOrCreateUser = function(){\n          // find a user in Mongo with provided username\n          User.findOne({'username':username},function(err, user) {\n            // In case of any error return\n            if (err){\n              console.log('Error in SignUp: '+err);\n              return done(err);\n            }\n            // already exists\n            if (user) {\n              console.log('User already exists);\n              return done(null, false, \n                 req.flash('message','User Already Exists'));\n            } else {\n              // if there is no user with that email\n              // create the user\n              var newUser = new User();\n              // set the user's local credentials\n              newUser.username = username;\n              newUser.password = createHash(password);\n              newUser.email = req.param('email');\n              newUser.firstName = req.param('firstName');\n              newUser.lastName = req.param('lastName');\n    \n              // save the user\n              newUser.save(function(err) {\n                if (err){\n                  console.log('Error in Saving user: '+err);  \n                  throw err;  \n                }\n                console.log('User Registration succesful');    \n                return done(null, newUser);\n              });\n            }\n          });\n        };\n        \n        // Delay the execution of findOrCreateUser and execute \n        // the method in the next tick of the event loop\n        process.nextTick(findOrCreateUser);\n      });\n    );\n\nHere, we again use the Mongoose API to find if any user with the given\nusername already exists or not. If not, then create a new user and saves the\nuser information in Mongo. Else return the error using the `done` callback and\nflash messages. Note that we use `bcrypt-nodejs` for creating the hash of the\npassword before saving it:\n\n    \n    \n    // Generates hash using bCrypt\n    var createHash = function(password){\n     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);\n    }\n\n## Creating Routes\n\nIf we were to see a birds eye view of our application, it would look like:\n\nWe now define our routes for the application in the following module which\ntakes the instance of Passport created in `app.js` above. Save this module in\n`routes/index.js`\n\n    \n    \n    module.exports = function(passport){\n    \n      /* GET login page. */\n      router.get('/', function(req, res) {\n        // Display the Login page with any flash message, if any\n        res.render('index', { message: req.flash('message') });\n      });\n    \n      /* Handle Login POST */\n      router.post('/login', passport.authenticate('login', {\n    \tsuccessRedirect: '/home',\n    \tfailureRedirect: '/',\n    \tfailureFlash : true  \n      }));\n    \n      /* GET Registration Page */\n      router.get('/signup', function(req, res){\n    \tres.render('register',{message: req.flash('message')});\n      });\n    \n      /* Handle Registration POST */\n      router.post('/signup', passport.authenticate('signup', {\n    \tsuccessRedirect: '/home',\n    \tfailureRedirect: '/signup',\n    \tfailureFlash : true  \n      }));\n    \n      return router;\n    }\n\nThe most important part of the above code snippet is the use of\n`passport.authenticate()` to delegate the authentication to `login` and\n`signup` strategies when a HTTP `POST` is made to `/login` and `/signup`\nroutes respectively. Note that it is not mandatory to name the strategies on\nthe route path and it can be named anything.\n\n## Creating Jade Views\n\nNext, we create the following two views for our application:\n\n  1. `layout.jade` contains the basic layout \u0026 styling information  \n  2. `index.jade` contains the login page containing the login form and giving option to create a new account\n    \n    \n    extends layout\n    \n    block content\n      div.container\n    \tdiv.row\n    \t  div.col-sm-6.col-md-4.col-md-offset-4\n    \t\th1.text-center.login-title Sign in to our Passport app\n    \t\t  div.account-wall\n    \t\t\timg(class='profile-img', src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120')\n    \t\t\tform(class='form-signin', action='/login', method='POST')\n    \t\t\t  input(type='text', name='username' class='form-control', placeholder='Email',required, autofocus)\n    \t\t\t  input(type='password', name='password' class='form-control', placeholder='Password', required)\n    \t\t\t  button(class='btn btn-lg btn-primary btn-block', type='submit') Sign in\n    \t\t\t  span.clearfix\n    \t\t  a(href='/signup', class='text-center new-account') Create an account\n    \t\t  #message\n    \t\t  if message\n    \t\t\th1.text-center.error-message #{message}\n\nThanks to Bootstrap, our Login page now looks like\n\nWe need two more views for registration details and for the home page of the\napplication:\n\n  1. `register.jade` contains the registration form\n  2. `home.jade` says hello and shows logged in user's details\n\nIf you are unfamiliar with Jade, check out the [documentation](http://jade-\nlang.com/reference/).\n\n## Implementing Logout Functionality\n\nPassport, being a middleware, is permitted to add certain properties and\nmethods on request and response objects and it makes proper use of it by\nadding a very handy `request.logout()` method which invalidates the user\nsession apart from other properties.\n\n    \n    \n    /* Handle Logout */\n    router.get('/signout', function(req, res) {\n      req.logout();\n      res.redirect('/');\n    });\n\n## Protecting Routes\n\nPassport also gives the ability to protect access to a route which is deemed\nunfit for an anonymous user. This means that if some user tries to access\n\u003Chttp://localhost:3000/home\u003E without authenticating in the application, he\nwill be redirected to home page by doing\n\n    \n    \n    /* GET Home Page */\n    router.get('/home', isAuthenticated, function(req, res){\n      res.render('home', { user: req.user });\n    });\n    \n    // As with any middleware it is quintessential to call next()\n    // if the user is authenticated\n    var isAuthenticated = function (req, res, next) {\n      if (req.isAuthenticated())\n    \treturn next();\n      res.redirect('/');\n    }\n\n## Conclusion\n\nPassport is not the only player in this arena when its comes to authenticating\nNode.js applications and there exists alternatives like\n[EveryAuth](https://github.com/bnoguchi/everyauth/) but the modularity,\nflexibility, community support and the fact that its just a middleware makes\nPassport definitely a much better choice.\n\nFor a detailed comparison between the two,\n[here](http://stackoverflow.com/questions/11974947/everyauth-vs-passport-js)\nis an interesting \u0026 informative perspective from the developer of Passport\nhimself.\n\n\n\n\n Published via [PaperboD*](http://paperbod.com)","public":true,"created_at":"2014-08-12T11:21:58Z","interacted_at":"2014-08-12T11:23:08Z","provider_display_name":null,"post_type":"StatusMessage","image_url":null,"object_url":null,"favorite":false,"nsfw":false,"author":{"id":149470,"guid":"f7d919547411e57d","name":"Nettuts+","diaspora_id":"nettutsplus@wk3.org","avatar":{"small":"https://wk3.org/uploads/images/thumb_small_0159a8a9760f4ae9a43f.jpg","medium":"https://wk3.org/uploads/images/thumb_medium_0159a8a9760f4ae9a43f.jpg","large":"https://wk3.org/uploads/images/thumb_large_0159a8a9760f4ae9a43f.jpg"}},"o_embed_cache":null,"open_graph_cache":null,"mentioned_people":[],"photos":[],"root":null,"title":"[Authenticating Node.js Applications With Passport](http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619)","address":null,"poll":null,"already_participated_in_poll":null,"interactions":{"likes":[],"reshares":[],"comments_count":0,"likes_count":0,"reshares_count":0}};
+//]]>
+</script>
+</head>
+<body>
+
+<header>
+<div class="container" style="position:relative;">
+<a href="https://diasp.org/"><div class="diaspora_header_logo branding-header-logo"></div></a>
+<ul id="landing_nav">
+<li><a href="https://diasp.org/users/sign_up" class="login">Sign up</a></li>
+<li><a href="https://diasp.org/users/sign_in" class="login">Sign in</a></li>
+</ul>
+<div style="max-height: 829px;" id="lightbox">
+<div id="lightbox-content">
+<a href="#" id="lightbox-close-link">
+[x]
+close
+</a>
+<img id="lightbox-image">
+<div id="lightbox-imageset"></div>
+</div>
+</div>
+<div id="lightbox-backdrop"></div>
+</div>
+</header>
+
+
+<div class="container-fluid" id="container"><div data-template="single-post-viewer" id="3361834"><div id="single-post-container" class="container-fluid">
+  <div class="row-fluid">
+    <div id="single-post-content" class="span6"><div data-template="single-post-content"><div id="head" class="row-fluid">
+  <div class="row-fluid">
+    <div id="post-info" class="span8">
+      <div class="img pull-left">
+        
+          <a href="https://diasp.org/people/f7d919547411e57d" class="author-name hovercardable">
+            <img src="_Users_larrynickerson_nodejs-sites_sandbox_express-sandbox_passport-mongo_Authenticating%20Node.js%20Applications%20With%20Passport_files/thumb_medium_0159a8a9760f4ae9a43f.jpg" class="avatar medium" title="Nettuts+">
+          </a>
+        
+      </div>
+
+      <div class="bd">
+        <span class="author">
+          
+            <a href="https://diasp.org/people/f7d919547411e57d" class="author-name hovercardable">
+              Nettuts+
+            </a>
+          
+        </span>
+            
+        <div class="info">
+          
+            <span data-original-title="Public" class="post_scope">
+              <i class="entypo globe small"></i>
+            </span>
+          
+          <span class="post-time">
+            
+              <a href="https://diasp.org/posts/3361834">
+                <time data-original-title="8/12/2014, 6:21:58 AM" datetime="2014-08-12T11:21:58Z">7 months ago</time>
+              </a>
+            
+          </span>
+          
+            
+          
+          <div class="status-message-location"><div data-template="status-message-location">
+</div></div>
+        </div>
+      </div>
+    </div>
+    
+      <div id="single-post-actions" class="span4"><div data-template="single-post-actions" class="info"><div class="pull-right">
+  
+</div>
+</div></div>
+    
+  </div>
+  
+</div>
+<div id="body" class="row-fluid">
+  <div id="real-post-content" class="span12"><div data-template="status-message">
+
+<div class="collapsible">
+  <h3><a href="http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-with-passport--cms-21619" target="_blank">Authenticating Node.js Applications With Passport</a></h3>
+
+<p><em>2014-08-11T18:13:24.668Z, by Agraj Mangal</em></p>
+
+<p>Implementing robust authentication strategies for any application can be a
+daunting task and Node.js applications are no exception to this.</p>
+
+<p>In this tutorial, we will develop a Node.js application from scratch and use a
+relatively new but very popular authentication middleware -
+<a href="http://passportjs.org/" target="_blank">Passport</a> to take care of our authentication
+concerns.  </p>
+
+<blockquote>
+  <p>Passport's documentation describes it as a "simple, unobtrusive
+  authentication middleware for Node" and rightly so.</p>
+</blockquote>
+
+<p>By providing itself as a middleware, Passport does an excellent job at
+separating the other concerns of a web application from its authentication
+needs. It allows Passport to be easily configured into any
+<a href="http://expressjs.com/" target="_blank">Express</a>-based web application, just like we configure
+other Express middleware such as
+<a href="https://github.com/expressjs/morgan" target="_blank">logging</a>, <a href="https://github.com/expressjs/body-parser" target="_blank">body-
+parsing</a>, <a href="https://github.com/expressjs/cookie-parser" target="_blank">cookie-
+parsing</a>, session-handling, etc.</p>
+
+<p>This tutorial assumes a basic understanding of <a href="http://nodejs.org/" target="_blank">Node.js</a>
+and <a href="http://expressjs.com/" target="_blank">Express</a> framework and try to keep focus on
+authentication, although we do create a sample Express app from scratch and
+progress via adding routes to it and authenticating some of those routes.</p>
+
+<h2>Authentication Strategies</h2>
+
+<p>Passport provides us with 140+ authentication mechanisms to choose from. You
+can authenticate against a local/remote database instance or use the single
+sign-on using OAuth providers for Facebook, Twitter, <a href="https://github.com/jaredhanson/passport-google" target="_blank">Google</a>, etc. to
+authenticate with your social media accounts, or you can choose from an
+extensive list of <a href="http://passportjs.org/guide/providers/" target="_blank">providers</a> which
+support authentication with Passport and provide a node module for that.</p>
+
+<p>But worry not: You do not need to include any strategy/mechanism that your
+application does not need. All these strategies are independent of each other
+and packaged as separate node modules which are not included by default when
+you install Passport's middleware:  <code>npm install passport</code></p>
+
+<p>In this tutorial, we will use the Local Authentication Strategy of Passport
+and authenticate the users against a locally configured Mongo DB instance,
+storing the user details in the database. For using the Local Authentication
+Strategy, we need to install the <a href="https://github.com/jaredhanson/passport-local" target="_blank">passport-
+local</a> module: <code>npm install
+passport-local</code></p>
+
+<p>But wait: Before you fire up your terminal and start executing these commands,
+let's start by building a Express app from scratch and add some routes to it
+(for login, registration and home) and then try to add our authentication
+middleware to it. Note that we will be using Express 4 for the purposes of
+this tutorial, but with some minor
+differences Passport works equally well with Express 3, as well.</p>
+
+<h2>Setting Up the Application</h2>
+
+<p>If you haven't already, then go ahead and install
+<a href="http://expressjs.com/" target="_blank">Express</a> &amp; <a href="https://github.com/expressjs/generator" target="_blank">express-
+generator</a> to generate a boilerplate
+application by simply executing <code>express passport-mongo</code> on the terminal. The
+generated application structure should look like this:</p>
+
+<p>Let's remove some of the default functionality that we won't be making use of
+- go ahead and delete the <code>users.js</code> route and remove its references from the
+<code>app.js</code> file.</p>
+
+<h2>Adding Project Dependencies</h2>
+
+<p>Open up <code>package.json</code> and add the dependencies for <code>passport</code> and <code>passport-
+local</code> module.</p>
+
+<pre><code>"passport": "~0.2.0",
+"passport-local": "~1.0.0"
+</code></pre>
+
+<p>Since we will be saving the user details in MongoDB, we will use Mongoose as
+our object data modeling tool. Another way to install and save the dependency
+to <code>package.json</code> is by entering:</p>
+
+<pre><code>npm install mongoose --save 
+</code></pre>
+
+<p><code>package.json</code> should look like this:</p>
+
+<p>Now, install all the dependencies and run the boilerplate application by
+executing <code>npm install &amp;&amp; npm start</code>. It will now download and install all of
+the dependencies and will start the node server. You can check the basic
+Express app at <a href="http://localhost:3000/">http://localhost:3000/</a> but there is nothing much to see.</p>
+
+<p>Very soon, we are going to change that by creating a full-fledged express app
+that asks for shows a registration page for a new user, the login of a
+registered user, and authenticates the registered user by using Passport.</p>
+
+<h2>Creating Mongoose Model</h2>
+
+<p>Since we will be saving the user details in Mongo, let's create a User Model
+in <a href="http://mongoosejs.com/index.html" target="_blank">Mongoose</a> and save that in
+<code>models/user.js</code> in our app.</p>
+
+<pre><code>var mongoose = require('mongoose');
+
+module.exports = mongoose.model('User',{
+        username: String,
+    password: String,
+    email: String,
+    gender: String,
+    address: String
+});
+</code></pre>
+
+<p>Basically, we are creating a Mongoose
+<a href="http://mongoosejs.com/docs/models.html" target="_blank">model</a> using which we can perform
+CRUD operations on the underlying database.</p>
+
+<h2>Configuring Mongo</h2>
+
+<p>If you do not have Mongo installed locally then we recommend that you use
+cloud database services such as <a href="https://modulus.io/" target="_blank">Modulus</a> or
+<a href="https://mongolab.com/welcome/" target="_blank">MongoLab</a>. Creating a working MongoDB instance
+using these is not only free but is just a matter of few clicks.</p>
+
+<p>After you create a database on one of these services, it will give you a
+database URI
+like<code>mongodb://&lt;dbuser&gt;:&lt;dbpassword&gt;@novus.modulusmongo.net:27017/&lt;dbName&gt;</code>
+which can be used to perform CRUD operations on the database. It's a good idea
+to keep the database configuration in a separate file which can be pull up as
+and when needed. As such, we create a node module <code>db.js</code> which looks like:</p>
+
+<pre><code>module.exports = {
+  'url' : 'mongodb://&lt;dbuser&gt;:&lt;dbpassword&gt;@novus.modulusmongo.net:27017/&lt;dbName&gt;'
+}
+</code></pre>
+
+<p>If like me, you are using a local mMngo instance then it's time to start the
+<code>mongod</code> daemon and the <code>db.js</code> should look like</p>
+
+<pre><code>module.exports = {
+  'url' : 'mongodb://localhost/passport'
+}
+</code></pre>
+
+<p>Now we use this configuration in <code>app.js</code> and connect to it using Mongoose
+APIs:  </p>
+
+<pre><code>var dbConfig = require('./db.js');
+var mongoose = require('mongoose');
+mongoose.connect(dbConfig.url);
+</code></pre>
+
+<h2>Configuring Passport</h2>
+
+<p>Passport just provides the mechanism to handle authentication leaving the onus
+of implementing session-handling ourselves and for that we will be using
+<a href="https://github.com/expressjs/session" target="_blank">express-session</a>. Open up <code>app.js</code> and
+paste the code below before configuring the routes:</p>
+
+<pre><code>// Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+</code></pre>
+
+<p>This is needed as we want our user sessions to be persistent in nature. Before
+running the app, we need to install <a href="https://github.com/expressjs/session" target="_blank">express-
+session</a> and add it to our dependency
+list in <code>package.json</code>. To do that type <code>npm install --save express-session</code></p>
+
+<h2>Serializing and Deserializing User Instances</h2>
+
+<p>Passport also needs to serialize and deserialize user instance from a session
+store in order to support login sessions, so that every subsequent request
+will not contain the user credentials. It provides two methods <code>serializeUser</code>
+and <code>deserializeUser</code> for this purpose:</p>
+
+<pre><code>passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+</code></pre>
+
+<h2>Using Passport Strategies</h2>
+
+<p>We will now define Passport's strategies for handling <strong>login</strong> and
+<strong>signup</strong>. Each of them would be an instance of  the <strong>Local Authentication
+Strategy</strong> of Passport and would be created using the <code>passport.use()</code>
+function. We use <a href="https://www.npmjs.org/package/connect-flash" target="_blank">connect-flash</a>
+to help us with error handling by providing flash messages which can be
+displayed to user on error.</p>
+
+<h3>Login Strategy</h3>
+
+<p>The login strategy looks like this:</p>
+
+<pre><code>// passport/login.js
+passport.use('login', new LocalStrategy({
+    passReqToCallback : true
+  },
+  function(req, username, password, done) { 
+    // check in mongo if a user with username exists or not
+    User.findOne({ 'username' :  username }, 
+      function(err, user) {
+        // In case of any error, return using the done method
+        if (err)
+          return done(err);
+        // Username does not exist, log error &amp; redirect back
+        if (!user){
+          console.log('User Not Found with username '+username);
+          return done(null, false, 
+                req.flash('message', 'User Not found.'));                 
+        }
+        // User exists but wrong password, log the error 
+        if (!isValidPassword(user, password)){
+          console.log('Invalid Password');
+          return done(null, false, 
+              req.flash('message', 'Invalid Password'));
+        }
+        // User and password both match, return user from 
+        // done method which will be treated like success
+        return done(null, user);
+      }
+    );
+}));
+</code></pre>
+
+<p>The first parameter to <code>passport.use()</code> is the <strong>name</strong> of the strategy which
+will be used to identify this strategy when applied later. The second
+parameter is the <strong>type</strong> of strategy that you want to create, here we use the
+<a href="http://passportjs.org/guide/username-password/" target="_blank">username-password</a> or the
+LocalStrategy. It is to be noted that by default the LocalStrategy expects to
+find the user credentials in <code>username</code> &amp; <code>password</code> parameters, but it allows
+us to use any other named parameters as well. The <code>passReqToCallback</code> config
+variable allows us to access the <code>request</code> object in the callback, thereby
+enabling us to use any parameter associated with the request.  </p>
+
+<p>Next, we use the <a href="http://mongoosejs.com/docs/api.html#model_Model.findOne" target="_blank">Mongoose
+API</a> to find the User
+in our underlying collection of Users to check if the user is a valid user or
+not. The last parameter in our callback : <code>done</code> denotes a useful method using
+which we could signal success or failure to Passport module. To specify
+failure either the first parameter should contain the error, or the second
+parameter should evaluate to <code>false</code>. To signify success the first parameter
+should be <code>null</code> and the second parameter should evaluate to a <code>truthy</code> value,
+in which case it will be made available on the <code>request</code> object</p>
+
+<p>Since passwords are inherently weak in nature, we should always
+<a href="http://codahale.com/how-to-safely-store-a-password/" target="_blank">encrypt</a> them before
+saving them to the database. For this, we use <a href="https://www.npmjs.org/package/bcrypt-nodejs" target="_blank">bcrypt-
+nodejs</a> to help us out with
+encryption and decryption of passwords.</p>
+
+<pre><code>var isValidPassword = function(user, password){
+  return bCrypt.compareSync(password, user.password);
+}
+</code></pre>
+
+<p>If you are feeling uneasy with the code snippets and prefer to see the
+complete code in action, feel free to browse <a href="https://github.com/tutsplus/passport-mongo" target="_blank">the code
+here</a>.</p>
+
+<h3>Registration Strategy</h3>
+
+<p>Now, we define the next strategy which will handle registration of a new user
+and creates his or her entry in our underlying Mongo DB:</p>
+
+<pre><code>passport.use('signup', new LocalStrategy({
+    passReqToCallback : true 
+  },
+  function(req, username, password, done) {
+    findOrCreateUser = function(){
+      // find a user in Mongo with provided username
+      User.findOne({'username':username},function(err, user) {
+        // In case of any error return
+        if (err){
+          console.log('Error in SignUp: '+err);
+          return done(err);
+        }
+        // already exists
+        if (user) {
+          console.log('User already exists);
+          return done(null, false, 
+             req.flash('message','User Already Exists'));
+        } else {
+          // if there is no user with that email
+          // create the user
+          var newUser = new User();
+          // set the user's local credentials
+          newUser.username = username;
+          newUser.password = createHash(password);
+          newUser.email = req.param('email');
+          newUser.firstName = req.param('firstName');
+          newUser.lastName = req.param('lastName');
+
+          // save the user
+          newUser.save(function(err) {
+            if (err){
+              console.log('Error in Saving user: '+err);  
+              throw err;  
+            }
+            console.log('User Registration succesful');    
+            return done(null, newUser);
+          });
+        }
+      });
+    };
+
+    // Delay the execution of findOrCreateUser and execute 
+    // the method in the next tick of the event loop
+    process.nextTick(findOrCreateUser);
+  });
+);
+</code></pre>
+
+<p>Here, we again use the Mongoose API to find if any user with the given
+username already exists or not. If not, then create a new user and saves the
+user information in Mongo. Else return the error using the <code>done</code> callback and
+flash messages. Note that we use <code>bcrypt-nodejs</code> for creating the hash of the
+password before saving it:</p>
+
+<pre><code>// Generates hash using bCrypt
+var createHash = function(password){
+ return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
+</code></pre>
+
+<h2>Creating Routes</h2>
+
+<p>If we were to see a birds eye view of our application, it would look like:</p>
+
+<p>We now define our routes for the application in the following module which
+takes the instance of Passport created in <code>app.js</code> above. Save this module in
+<code>routes/index.js</code></p>
+
+<pre><code>module.exports = function(passport){
+
+  /* GET login page. */
+  router.get('/', function(req, res) {
+    // Display the Login page with any flash message, if any
+    res.render('index', { message: req.flash('message') });
+  });
+
+  /* Handle Login POST */
+  router.post('/login', passport.authenticate('login', {
+    successRedirect: '/home',
+    failureRedirect: '/',
+    failureFlash : true  
+  }));
+
+  /* GET Registration Page */
+  router.get('/signup', function(req, res){
+    res.render('register',{message: req.flash('message')});
+  });
+
+  /* Handle Registration POST */
+  router.post('/signup', passport.authenticate('signup', {
+    successRedirect: '/home',
+    failureRedirect: '/signup',
+    failureFlash : true  
+  }));
+
+  return router;
+}
+</code></pre>
+
+<p>The most important part of the above code snippet is the use of
+<code>passport.authenticate()</code> to delegate the authentication to <code>login</code> and
+<code>signup</code> strategies when a HTTP <code>POST</code> is made to <code>/login</code> and <code>/signup</code>
+routes respectively. Note that it is not mandatory to name the strategies on
+the route path and it can be named anything.</p>
+
+<h2>Creating Jade Views</h2>
+
+<p>Next, we create the following two views for our application:</p>
+
+<ol>
+<li><code>layout.jade</code> contains the basic layout &amp; styling information  </li>
+<li><p><code>index.jade</code> contains the login page containing the login form and giving option to create a new account</p>
+
+<p>extends layout</p>
+
+<p>block content
+  div.container
+    div.row
+      div.col-sm-6.col-md-4.col-md-offset-4
+        h1.text-center.login-title Sign in to our Passport app
+          div.account-wall
+            img(class='profile-img', 
+src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120')
+
+            form(class='form-signin', action='/login', method='POST')
+              input(type='text', name='username' class='form-control', 
+placeholder='Email',required, autofocus)
+              input(type='password', name='password' 
+class='form-control', placeholder='Password', required)
+              button(class='btn btn-lg btn-primary btn-block', 
+type='submit') Sign in
+              span.clearfix
+          a(href='/signup', class='text-center new-account') Create an 
+account
+          <a href="https://diasp.org/tags/message" class="tag">#message</a>
+          if message
+            h1.text-center.error-message #{message}</p></li>
+</ol>
+
+<p>Thanks to Bootstrap, our Login page now looks like</p>
+
+<p>We need two more views for registration details and for the home page of the
+application:</p>
+
+<ol>
+<li><code>register.jade</code> contains the registration form</li>
+<li><code>home.jade</code> says hello and shows logged in user's details</li>
+</ol>
+
+<p>If you are unfamiliar with Jade, check out the documentation.</p>
+
+<h2>Implementing Logout Functionality</h2>
+
+<p>Passport, being a middleware, is permitted to add certain properties and
+methods on request and response objects and it makes proper use of it by
+adding a very handy <code>request.logout()</code> method which invalidates the user
+session apart from other properties.</p>
+
+<pre><code>/* Handle Logout */
+router.get('/signout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
+</code></pre>
+
+<h2>Protecting Routes</h2>
+
+<p>Passport also gives the ability to protect access to a route which is deemed
+unfit for an anonymous user. This means that if some user tries to access
+<a href="http://localhost:3000/home">http://localhost:3000/home</a> without authenticating in the application, he
+will be redirected to home page by doing</p>
+
+<pre><code>/* GET Home Page */
+router.get('/home', isAuthenticated, function(req, res){
+  res.render('home', { user: req.user });
+});
+
+// As with any middleware it is quintessential to call next()
+// if the user is authenticated
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/');
+}
+</code></pre>
+
+<h2>Conclusion</h2>
+
+<p>Passport is not the only player in this arena when its comes to authenticating
+Node.js applications and there exists alternatives like
+<a href="https://github.com/bnoguchi/everyauth/" target="_blank">EveryAuth</a> but the modularity,
+flexibility, community support and the fact that its just a middleware makes
+Passport definitely a much better choice.</p>
+
+<p>For a detailed comparison between the two,
+<a href="http://stackoverflow.com/questions/11974947/everyauth-vs-passport-js" target="_blank">here</a>
+is an interesting &amp; informative perspective from the developer of Passport
+himself.</p>
+
+<p>Published via <a href="http://paperbod.com/" target="_blank">PaperboD*</a></p>
+  <div class="oembed"><div data-template="oembed">
+</div></div>
+  <div class="opengraph"><div data-template="opengraph">
+  
+
+
+</div></div>
+  <div class="poll"><div data-template="poll">
+</div></div>
+</div>
+</div></div>
+</div>
+</div></div>
+    <div id="single-post-interactions" class="span6"><div data-template="single-post-interactions">
+
+
+  <div class="no_comments">
+    <h4>There are no comments yet.</h4>
+  </div>
+
+<div id="comments"><div data-template="comment-stream" class="comment_stream">
+  <div class="show_comments comment  hidden ">
+    <div class="media">
+      <a href="https://diasp.org/posts/3361834#comments" class="toggle_post_comments">
+        Show 0 more comments
+      </a>
+    </div>
+  </div>
+
+
+<div class="comments"> </div>
+
+
+</div></div>
+</div></div>
+  </div>
+</div>
+</div></div>
+
+<footer>
+<div class="container">
+<div class="branding-powered_by_diaspora"></div>
+<ul id="footer_nav">
+<li><a href="https://diasporafoundation.org/">diasporafoundation.org</a></li>
+<li><a href="https://wiki.diasporafoundation.org/">Wiki</a></li>
+<li><a href="http://twitter.com/diasporg">Twitter</a></li>
+<li><a href="http://b.diasp.org/">Blog</a></li>
+<li><a href="http://dia.so/support">Support</a></li>
+<li><a href="https://github.com/diaspora/diaspora/blob/efe05f13f04b1a3423710331f58f9bbbd668dd2b/Changelog.md">What's new?</a></li>
+<li><a href="https://diasp.org/mobile/toggle">Toggle mobile</a></li>
+<li><a href="https://diasp.org/terms">Terms</a></li>
+
+</ul>
+</div>
+</footer>
+
+
+
+
+
+
+
+
+<div data-template="hovercard" id="hovercard_container"><div id="hovercard">
+  <img class="avatar">
+  <h4>
+    <a class="person"></a>
+  </h4>
+  <div class="handle"></div>
+  <div id="hovercard_dropdown_container"></div>
+  <div class="hovercard_footer">
+    <div class="footer_container">
+      <div class="hashtags"></div>
+    </div>
+  </div>
+</div>
+</div></body></html>
